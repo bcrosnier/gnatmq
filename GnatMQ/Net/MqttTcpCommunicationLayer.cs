@@ -180,7 +180,11 @@ namespace uPLibrary.Networking.M2Mqtt.Communication
                 try
                 {
                     // blocking call to wait for client connection
+#if NETSTANDARD1_3
+                    Socket socketClient = this.listener.AcceptSocketAsync().GetAwaiter().GetResult();
+#else
                     Socket socketClient = this.listener.AcceptSocket();
+#endif
 
                     // manage socket client connected
                     if (socketClient.Connected)
